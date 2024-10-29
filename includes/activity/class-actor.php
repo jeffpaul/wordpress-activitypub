@@ -43,6 +43,14 @@ class Actor extends Base_Object {
 				'@id'   => 'lemmy:moderators',
 				'@type' => '@id',
 			),
+			'alsoKnownAs'               => array(
+				'@id'   => 'as:alsoKnownAs',
+				'@type' => '@id',
+			),
+			'movedTo'                   => array(
+				'@id'   => 'as:movedTo',
+				'@type' => '@id',
+			),
 			'attributionDomains'        => array(
 				'@id'   => 'toot:attributionDomains',
 				'@type' => '@id',
