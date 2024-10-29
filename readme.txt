@@ -3,7 +3,7 @@ Contributors: automattic, pfefferle, mediaformat, mattwiebe, akirk, jeherve, nur
 Tags: OStatus, fediverse, activitypub, activitystream
 Requires at least: 5.5
 Tested up to: 6.6
-Stable tag: 3.2.5
+Stable tag: 4.0.1
 Requires PHP: 7.0
 License: MIT
 License URI: http://opensource.org/licenses/MIT
@@ -13,6 +13,8 @@ The ActivityPub protocol is a decentralized social networking protocol based upo
 == Description ==
 
 Enter the fediverse with **ActivityPub**, broadcasting your blog to a wider audience! Attract followers, deliver updates, and receive comments from a diverse user base of **ActivityPub**\-compliant platforms.
+
+https://www.youtube.com/watch?v=QzYozbNneVc
 
 With the ActivityPub plugin installed, your WordPress blog itself function as a federated profile, along with profiles for each author. For instance, if your website is `example.com`, then the blog-wide profile can be found at `@example.com@example.com`, and authors like Jane and Bob would have their individual profiles at `@jane@example.com` and `@bobz@example.com`, respectively.
 
@@ -138,7 +140,65 @@ The followers of a user can be found in the menu under "Users" -> "Followers" or
 
 For reasons of data protection, it is not possible to see the followers of other users.
 
+== Screenshots ==
+
+1. The "Follow me"-Block in the Block-Editor
+2. The "Followers"-Block in the Block-Editor
+3. The "Federated Reply"-Block in the Block-Editor
+4. A "Federated Reply" in a Post
+5. A Blog-Profile on Mastodon
+
 == Changelog ==
+
+= 4.0.1 =
+
+* Fixed: Missing URL-Param handling in REST API
+* Fixed: Seriously Simple Podcasting integration
+* Fixed: Multiple small fixes
+* Improved: Provide contextual fallback for dynamic blocks
+
+= 4.0.0 =
+
+* Added: Fire an action before a follower is removed
+* Added: Make Intent-URL filterable
+* Added: `title` attribute to link headers for better readability
+* Added: Post "visibility" feature
+* Added: Attribution-Domains support
+* Improved: Inbox validation
+* Improved: WordPress-Post-Type - Detection
+* Improved: Only validate POST params and do not fall back to GET params
+* Improved: ID handling for a better compatibility with caching plugins
+* Fixed: The "Shared Inbox" endpoint
+* Fixed: Ensure that sticky_posts is an array
+* Fixed: URLs and Hashtags in profiles were not converted
+* Fixed: A lot of small improvements and fixes
+
+= 3.3.3 =
+
+* Fixed: Sanitization callback
+* Improved: A lot of PHPCS cleanups
+* Improved: Prepare multi-lang support
+
+= 3.3.2 =
+
+* Fixed: Keep priority of Icons
+* Fixed: Fatal error if remote-object is `WP_Error`
+* Improved: Adopt WordPress PHP Coding Standards
+
+= 3.3.1 =
+
+* Fixed: PHP Warnings
+* Fixed: PHPCS issues
+
+= 3.3.0 =
+
+* Added: Content warning support
+* Added: Replies collection
+* Added: Enable Mastodon Apps: support profile editing, blog user
+* Added: Follow Me/Followers: add inherit mode for dynamic templating
+* Fixed: Cropping Header Images for users without the 'customize' capability
+* Improved: OpenSSL handling
+* Improved: Added missing @ in Follow-Me block
 
 = 3.2.5 =
 
@@ -191,32 +251,7 @@ For reasons of data protection, it is not possible to see the followers of other
 * Fixed: Only send Update for previously-published posts
 * Improved: Simplified WebFinger code
 
-= 3.0.0 =
-
-* Added: "Reply Context" support, you can now reply to posts on the Fediverse through a WordPress post
-* Added: Bookmarklet to automatically pre-fill the "Reply Context" block
-* Added: "Header Image" support and ability to edit other profile informations for Authors and the Blog-User
-* Added: ActivityPub link HTML/HTTP-Header support
-* Added: Tag support for Actors (only auto generated for now)
-* Improved: Add setting to enable/disable the `fediverse:creator` OGP tag
-* Removed: Deprecated `class-post.php` model
-
-= 2.6.1 =
-
-* Fixed: Extra Fields will generate wrong entries
-
-= 2.6.0 =
-
-* Added: Support for FEP-fb2a
-* Added: CRUD support for Extra Fields
-* Improved: Remote-Follow UI and UX
-* Improved: Open Graph `fediverse:creator` implementation
-* Fixed: Compatibility issues with fed.brid.gy
-* Fixed: Remote-Reply endpoint
-* Fixed: WebFinger Error Codes (thanks to the FediTest project)
-* Fixed: Fatal Error when wp_schedule_single_event third argument is being passed as a string
-
-See full Changelog on [GitHub](https://github.com/Automattic/wordpress-activitypub/blob/master/CHANGELOG.md).
+See full Changelog on [GitHub](https://github.com/Automattic/wordpress-activitypub/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
 

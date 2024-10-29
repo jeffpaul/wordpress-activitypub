@@ -1,10 +1,15 @@
 <?php
 /**
  * Load the ActivityPub integrations.
+ *
+ * @package Activitypub
  */
 
 namespace Activitypub\Integration;
 
+/**
+ * Initialize the ActivityPub integrations.
+ */
 function plugin_init() {
 	/**
 	 * Adds WebFinger (plugin) support.
@@ -74,14 +79,13 @@ function plugin_init() {
 	if ( \defined( 'SSP_VERSION' ) ) {
 		add_filter(
 			'activitypub_transformer',
-			// phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.objectFound
-			function( $transformer, $object, $object_class ) {
+			function ( $transformer, $data, $object_class ) {
 				if (
 					'WP_Post' === $object_class &&
-					\get_post_meta( $object->ID, 'audio_file', true )
+					\get_post_meta( $data->ID, 'audio_file', true )
 				) {
 					require_once __DIR__ . '/class-seriously-simple-podcasting.php';
-					return new Seriously_Simple_Podcasting( $object );
+					return new Seriously_Simple_Podcasting( $data );
 				}
 				return $transformer;
 			},
@@ -126,7 +130,7 @@ add_filter( 'wp_stream_connectors', __NAMESPACE__ . '\register_stream_connector'
 // Excluded ActivityPub post types from the Stream.
 add_filter(
 	'wp_stream_posts_exclude_post_types',
-	function( $post_types ) {
+	function ( $post_types ) {
 		$post_types[] = 'ap_follower';
 		$post_types[] = 'ap_extrafield';
 		$post_types[] = 'ap_extrafield_blog';

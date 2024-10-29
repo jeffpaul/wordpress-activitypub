@@ -1,19 +1,27 @@
 <?php
+/**
+ * Collections REST-Class file.
+ *
+ * @package Activitypub
+ */
+
 namespace Activitypub\Rest;
 
+use WP_Error;
 use WP_REST_Server;
 use WP_REST_Response;
 use Activitypub\Activity\Actor;
+use Activitypub\Collection\Replies;
+use Activitypub\Transformer\Factory;
 use Activitypub\Activity\Base_Object;
 use Activitypub\Collection\Users as User_Collection;
-use Activitypub\Transformer\Factory;
 
 use function Activitypub\esc_hashtag;
 use function Activitypub\is_single_user;
 use function Activitypub\get_rest_url_by_path;
 
 /**
- * ActivityPub Collections REST-Class
+ * ActivityPub Collections REST-Class.
  *
  * @author Matthias Pfefferle
  *
@@ -22,14 +30,14 @@ use function Activitypub\get_rest_url_by_path;
  */
 class Collection {
 	/**
-	 * Initialize the class, registering WordPress hooks
+	 * Initialize the class, registering WordPress hooks.
 	 */
 	public static function init() {
 		self::register_routes();
 	}
 
 	/**
-	 * Register routes
+	 * Register routes.
 	 */
 	public static function register_routes() {
 		\register_rest_route(
@@ -39,7 +47,6 @@ class Collection {
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( self::class, 'tags_get' ),
-					'args'                => self::request_parameters(),
 					'permission_callback' => '__return_true',
 				),
 			)
@@ -52,7 +59,6 @@ class Collection {
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( self::class, 'featured_get' ),
-					'args'                => self::request_parameters(),
 					'permission_callback' => '__return_true',
 				),
 			)
@@ -69,14 +75,82 @@ class Collection {
 				),
 			)
 		);
+
+		\register_rest_route(
+			ACTIVITYPUB_REST_NAMESPACE,
+			'/(?P<type>[\w\-\.]+)s/(?P<id>[\w\-\.]+)/replies',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( self::class, 'replies_get' ),
+					'args'                => self::request_parameters_for_replies(),
+					'permission_callback' => '__return_true',
+				),
+			)
+		);
+	}
+
+	/**
+	 * The endpoint for replies collections.
+	 *
+	 * @param \WP_REST_Request $request The request object.
+	 *
+	 * @return WP_REST_Response|\WP_Error The response object or WP_Error.
+	 */
+	public static function replies_get( $request ) {
+		$type = $request->get_param( 'type' );
+		$id   = (int) $request->get_param( 'id' );
+
+		// Get the WordPress object of that "owns" the requested replies.
+		switch ( $type ) {
+			case 'comment':
+				$wp_object = \get_comment( $id );
+				break;
+			case 'post':
+			default:
+				$wp_object = \get_post( $id );
+				break;
+		}
+
+		if ( ! isset( $wp_object ) || is_wp_error( $wp_object ) ) {
+			return new WP_Error(
+				'activitypub_replies_collection_does_not_exist',
+				\sprintf(
+					// translators: %s: The type (post, comment, etc.) for which no replies collection exists.
+					\__( 'No reply collection exists for the type %s.', 'activitypub' ),
+					$type
+				)
+			);
+		}
+
+		$page = (int) $request->get_param( 'page' );
+
+		// If the request parameter page is present get the CollectionPage otherwise the replies collection.
+		if ( isset( $page ) ) {
+			$response = Replies::get_collection_page( $wp_object, $page );
+		} else {
+			$response = Replies::get_collection( $wp_object );
+		}
+
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
+
+		// Add ActivityPub Context.
+		$response = array_merge(
+			array( '@context' => Base_Object::JSON_LD_CONTEXT ),
+			$response
+		);
+
+		return new WP_REST_Response( $response, 200 );
 	}
 
 	/**
 	 * The Featured Tags endpoint
 	 *
-	 * @param WP_REST_Request $request The request object.
+	 * @param \WP_REST_Request $request The request object.
 	 *
-	 * @return WP_REST_Response The response object.
+	 * @return WP_REST_Response|\WP_Error The response object or WP_Error.
 	 */
 	public static function tags_get( $request ) {
 		$user_id = $request->get_param( 'user_id' );
@@ -126,9 +200,9 @@ class Collection {
 	/**
 	 * Featured posts endpoint
 	 *
-	 * @param WP_REST_Request $request The request object.
+	 * @param \WP_REST_Request $request The request object.
 	 *
-	 * @return WP_REST_Response The response object.
+	 * @return WP_REST_Response|\WP_Error The response object or WP_Error.
 	 */
 	public static function featured_get( $request ) {
 		$user_id = $request->get_param( 'user_id' );
@@ -142,7 +216,7 @@ class Collection {
 
 		if ( ! is_single_user() && User_Collection::BLOG_USER_ID === $user->get__id() ) {
 			$posts = array();
-		} elseif ( $sticky_posts ) {
+		} elseif ( $sticky_posts && is_array( $sticky_posts ) ) {
 			$args = array(
 				'post__in'            => $sticky_posts,
 				'ignore_sticky_posts' => 1,
@@ -184,13 +258,11 @@ class Collection {
 	}
 
 	/**
-	 * Moderators endpoint
-	 *
-	 * @param WP_REST_Request $request The request object.
+	 * Moderators endpoint.
 	 *
 	 * @return WP_REST_Response The response object.
 	 */
-	public static function moderators_get( $request ) {
+	public static function moderators_get() {
 		$response = array(
 			'@context'     => Actor::JSON_LD_CONTEXT,
 			'id'           => get_rest_url_by_path( 'collections/moderators' ),
@@ -201,7 +273,7 @@ class Collection {
 		$users = User_Collection::get_collection();
 
 		foreach ( $users as $user ) {
-			$response['orderedItems'][] = $user->get_url();
+			$response['orderedItems'][] = $user->get_id();
 		}
 
 		$rest_response = new WP_REST_Response( $response, 200 );
@@ -211,16 +283,23 @@ class Collection {
 	}
 
 	/**
-	 * The supported parameters
+	 * The supported parameters.
 	 *
-	 * @return array list of parameters
+	 * @return array list of parameters.
 	 */
-	public static function request_parameters() {
+	public static function request_parameters_for_replies() {
 		$params = array();
 
-		$params['user_id'] = array(
+		$params['type'] = array(
 			'required' => true,
-			'type' => 'string',
+			'type'     => 'string',
+			'enum'     => array( 'post', 'comment' ),
+		);
+
+		$params['id'] = array(
+			'required'          => true,
+			'type'              => 'string',
+			'sanitize_callback' => 'sanitize_text_field',
 		);
 
 		return $params;

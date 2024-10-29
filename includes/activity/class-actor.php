@@ -3,6 +3,8 @@
  * Inspired by the PHP ActivityPub Library by @Landrok
  *
  * @link https://github.com/landrok/activitypub
+ *
+ * @package Activitypub
  */
 
 namespace Activitypub\Activity;
@@ -22,40 +24,38 @@ class Actor extends Base_Object {
 		'https://w3id.org/security/v1',
 		'https://purl.archive.org/socialweb/webfinger',
 		array(
-			'schema' => 'http://schema.org#',
-			'toot' => 'http://joinmastodon.org/ns#',
-			'lemmy' => 'https://join-lemmy.org/ns#',
+			'schema'                    => 'http://schema.org#',
+			'toot'                      => 'http://joinmastodon.org/ns#',
+			'lemmy'                     => 'https://join-lemmy.org/ns#',
 			'manuallyApprovesFollowers' => 'as:manuallyApprovesFollowers',
-			'PropertyValue' => 'schema:PropertyValue',
-			'value' => 'schema:value',
-			'Hashtag' => 'as:Hashtag',
-			'featured' => array(
-				'@id' => 'toot:featured',
+			'PropertyValue'             => 'schema:PropertyValue',
+			'value'                     => 'schema:value',
+			'Hashtag'                   => 'as:Hashtag',
+			'featured'                  => array(
+				'@id'   => 'toot:featured',
 				'@type' => '@id',
 			),
-			'featuredTags' => array(
-				'@id' => 'toot:featuredTags',
+			'featuredTags'              => array(
+				'@id'   => 'toot:featuredTags',
 				'@type' => '@id',
 			),
-			'moderators' => array(
-				'@id' => 'lemmy:moderators',
+			'moderators'                => array(
+				'@id'   => 'lemmy:moderators',
 				'@type' => '@id',
 			),
-			'alsoKnownAs' => array(
-				'@id' => 'as:alsoKnownAs',
+			'attributionDomains'        => array(
+				'@id'   => 'toot:attributionDomains',
 				'@type' => '@id',
 			),
-			'movedTo' => array(
-				'@id' => 'as:movedTo',
-				'@type' => '@id',
-			),
-			'postingRestrictedToMods' => 'lemmy:postingRestrictedToMods',
-			'discoverable' => 'toot:discoverable',
-			'indexable' => 'toot:indexable',
+			'postingRestrictedToMods'   => 'lemmy:postingRestrictedToMods',
+			'discoverable'              => 'toot:discoverable',
+			'indexable'                 => 'toot:indexable',
 		),
 	);
 
 	/**
+	 * The type of the object.
+	 *
 	 * @var string
 	 */
 	protected $type;
@@ -177,4 +177,25 @@ class Actor extends Base_Object {
 	 * @var boolean
 	 */
 	protected $manually_approves_followers = false;
+
+	/**
+	 * Used to mark an object as containing sensitive content.
+	 * Mastodon displays a content warning, requiring users to click
+	 * through to view the content.
+	 *
+	 * @see https://docs.joinmastodon.org/spec/activitypub/#sensitive
+	 *
+	 * @var boolean
+	 */
+	protected $sensitive = null;
+
+	/**
+	 * Domains allowed to use `fediverse:creator` for this actor in
+	 * published articles.
+	 *
+	 * @see https://blog.joinmastodon.org/2024/07/highlighting-journalism-on-mastodon/
+	 *
+	 * @var array
+	 */
+	protected $attribution_domains = null;
 }
