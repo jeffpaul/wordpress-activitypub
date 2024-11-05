@@ -585,7 +585,7 @@ class Base_Object {
 		$array = \json_decode( $json, true );
 
 		if ( ! is_array( $array ) ) {
-			$array = array();
+			return new WP_Error( 'invalid_json', __( 'Invalid JSON', 'activitypub' ), array( 'status' => 400 ) );
 		}
 
 		return self::init_from_array( $array );
@@ -600,15 +600,11 @@ class Base_Object {
 	 */
 	public static function init_from_array( $data ) {
 		if ( ! is_array( $data ) ) {
-			return new WP_Error( 'invalid_array', __( 'Invalid array', 'activitypub' ), array( 'status' => 404 ) );
+			return new WP_Error( 'invalid_array', __( 'Invalid array', 'activitypub' ), array( 'status' => 400 ) );
 		}
 
 		$object = new static();
-
-		foreach ( $data as $key => $value ) {
-			$key = camel_to_snake_case( $key );
-			call_user_func( array( $object, 'set_' . $key ), $value );
-		}
+		$object->from_array( $data );
 
 		return $object;
 	}

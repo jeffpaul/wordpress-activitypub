@@ -33,7 +33,7 @@ class Comment extends Base {
 	 * @return int The User-ID of the WordPress Comment
 	 */
 	public function get_wp_user_id() {
-		return $this->wp_object->user_id;
+		return $this->item->user_id;
 	}
 
 	/**
@@ -42,7 +42,7 @@ class Comment extends Base {
 	 * @param int $user_id The new user ID.
 	 */
 	public function change_wp_user_id( $user_id ) {
-		$this->wp_object->user_id = $user_id;
+		$this->item->user_id = $user_id;
 	}
 
 	/**
@@ -53,7 +53,7 @@ class Comment extends Base {
 	 * @return \Activitypub\Activity\Base_Object The ActivityPub Object.
 	 */
 	public function to_object() {
-		$comment = $this->wp_object;
+		$comment = $this->item;
 		$object  = parent::to_object();
 
 		$object->set_url( $this->get_id() );
@@ -97,7 +97,7 @@ class Comment extends Base {
 			return $user->get_id();
 		}
 
-		return Users::get_by_id( $this->wp_object->user_id )->get_id();
+		return Users::get_by_id( $this->item->user_id )->get_id();
 	}
 
 	/**
@@ -108,7 +108,7 @@ class Comment extends Base {
 	 * @return string The content.
 	 */
 	protected function get_content() {
-		$comment = $this->wp_object;
+		$comment = $this->item;
 		$content = $comment->comment_content;
 
 		/**
@@ -141,7 +141,7 @@ class Comment extends Base {
 	 * @return false|string|null The URL of the in-reply-to.
 	 */
 	protected function get_in_reply_to() {
-		$comment        = $this->wp_object;
+		$comment        = $this->item;
 		$parent_comment = null;
 
 		if ( $comment->comment_parent ) {
@@ -169,7 +169,7 @@ class Comment extends Base {
 	 * @return string ActivityPub URI for comment
 	 */
 	protected function get_id() {
-		$comment = $this->wp_object;
+		$comment = $this->item;
 		return Comment_Utils::generate_id( $comment );
 	}
 
@@ -235,7 +235,7 @@ class Comment extends Base {
 		 *
 		 * @return array The filtered list of mentions.
 		 */
-		return apply_filters( 'activitypub_extract_mentions', array(), $this->wp_object->comment_content, $this->wp_object );
+		return apply_filters( 'activitypub_extract_mentions', array(), $this->item->comment_content, $this->item );
 	}
 
 	/**
@@ -244,7 +244,7 @@ class Comment extends Base {
 	 * @return array The list of ancestors.
 	 */
 	protected function get_comment_ancestors() {
-		$ancestors = get_comment_ancestors( $this->wp_object );
+		$ancestors = get_comment_ancestors( $this->item );
 
 		// Now that we have the full tree of ancestors, only return the ones received from the fediverse.
 		return array_filter(
@@ -264,8 +264,8 @@ class Comment extends Base {
 	 * @return array The list of all Repliers.
 	 */
 	public function extract_reply_context( $mentions ) {
-		// Check if `$this->wp_object` is a WP_Comment.
-		if ( 'WP_Comment' !== get_class( $this->wp_object ) ) {
+		// Check if `$this->item` is a WP_Comment.
+		if ( 'WP_Comment' !== get_class( $this->item ) ) {
 			return $mentions;
 		}
 
@@ -294,7 +294,7 @@ class Comment extends Base {
 	 * @return string The locale of the post.
 	 */
 	public function get_locale() {
-		$comment_id = $this->wp_object->ID;
+		$comment_id = $this->item->ID;
 		$lang       = \strtolower( \strtok( \get_locale(), '_-' ) );
 
 		/**
@@ -306,6 +306,6 @@ class Comment extends Base {
 		 *
 		 * @return string The filtered locale of the comment.
 		 */
-		return apply_filters( 'activitypub_comment_locale', $lang, $comment_id, $this->wp_object );
+		return apply_filters( 'activitypub_comment_locale', $lang, $comment_id, $this->item );
 	}
 }
