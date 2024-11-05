@@ -71,6 +71,14 @@ class Activity_Dispatcher {
 			return;
 		}
 
+		// check if user is disabled and blog user is enabled.
+		if (
+			is_user_disabled( $transformer->get_wp_user_id() ) &&
+			! is_user_disabled( Users::BLOG_USER_ID )
+		) {
+			$transformer->change_wp_user_id( Users::BLOG_USER_ID );
+		}
+
 		if ( null !== $user_id ) {
 			$transformer->change_wp_user_id( $user_id );
 		}
@@ -195,7 +203,7 @@ class Activity_Dispatcher {
 	public static function send_post( $id, $type ) {
 		$post = get_post( $id );
 
-		if ( ! $post ) {
+		if ( ! $post || is_post_disabled( $post ) ) {
 			return;
 		}
 
