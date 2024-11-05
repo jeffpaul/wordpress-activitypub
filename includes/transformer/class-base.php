@@ -44,7 +44,7 @@ abstract class Base {
 	 *
 	 * This helps to chain the output of the Transformer.
 	 *
-	 * @param WP_Post|WP_Comment|Base_Object|string|array $item The WordPress object.
+	 * @param WP_Post|WP_Comment|Base_Object|string|array $item The item that should be transformed.
 	 *
 	 * @return Base
 	 */
@@ -55,7 +55,7 @@ abstract class Base {
 	/**
 	 * Base constructor.
 	 *
-	 * @param WP_Post|WP_Comment|Base_Object|string|array $item The WordPress object.
+	 * @param WP_Post|WP_Comment|Base_Object|string|array $item The item that should be transformed.
 	 */
 	public function __construct( $item ) {
 		$this->item      = $item;
@@ -65,9 +65,9 @@ abstract class Base {
 	/**
 	 * Transform all properties with available get(ter) functions.
 	 *
-	 * @param Base_Object|object $activitypub_object The ActivityPub Object.
+	 * @param Base_Object $activitypub_object The ActivityPub Object.
 	 *
-	 * @return Base_Object|object
+	 * @return Base_Object The transformed ActivityPub Object.
 	 */
 	protected function transform_object_properties( $activitypub_object ) {
 		$vars = $activitypub_object->get_object_var_keys();

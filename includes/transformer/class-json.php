@@ -12,30 +12,22 @@ use Activitypub\Activity\Base_Object;
 /**
  * String Transformer Class file.
  */
-class Json extends Base {
+class Json extends Activity_Object {
+
 	/**
-	 * Transform the WordPress Object into an ActivityPub Object.
+	 * JSON constructor.
 	 *
-	 * @return Base_Object The ActivityPub Object.
+	 * @param WP_Post|WP_Comment|Base_Object|string|array $item The item that should be transformed.
 	 */
-	public function to_object() {
-		$activitypub_object = null;
+	public function __construct( $item ) {
+		$item = new Base_Object();
 
 		if ( is_array( $this->item ) ) {
-			$activitypub_object = Base_Object::init_from_array( $this->item );
-		} else {
-			$activitypub_object = Base_Object::init_from_json( $this->item );
+			$item = Base_Object::init_from_array( $this->item );
+		} elseif ( is_string( $this->item ) ) {
+			$item = Base_Object::init_from_json( $this->item );
 		}
 
-		return $activitypub_object;
-	}
-
-	/**
-	 * Get the ID of the WordPress Object.
-	 *
-	 * @return string The ID of the WordPress Object.
-	 */
-	protected function get_id() {
-		return '';
+		parent::__construct( $item );
 	}
 }
