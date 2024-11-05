@@ -20,7 +20,7 @@ class Outbox {
 	 *
 	 * @param string|array|Base_Object|WP_Post|WP_Comment $item The item to add.
 	 * @param int                                         $user_id The user ID.
-	 * @param string                                      $activity_type The activity <type class=""></type>
+	 * @param string                                      $activity_type The activity type.
 	 *
 	 * @return mixed The added item or an error.
 	 */
