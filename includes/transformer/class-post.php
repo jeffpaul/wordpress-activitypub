@@ -254,7 +254,7 @@ class Post extends Base {
 	 *
 	 * @return array The media array extended with enclosures.
 	 */
-	public function get_enclosures( $media ) {
+	protected function get_enclosures( $media ) {
 		$enclosures = get_enclosures( $this->item->ID );
 
 		if ( ! $enclosures ) {
@@ -709,19 +709,6 @@ class Post extends Base {
 	}
 
 	/**
-	 * Returns the recipient of the post.
-	 *
-	 * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-to
-	 *
-	 * @return array The recipient URLs of the post.
-	 */
-	public function get_to() {
-		return array(
-			'https://www.w3.org/ns/activitystreams#Public',
-		);
-	}
-
-	/**
 	 * Returns a list of Mentions, used in the Post.
 	 *
 	 * @see https://docs.joinmastodon.org/spec/activitypub/#Mention
@@ -748,7 +735,7 @@ class Post extends Base {
 	 *
 	 * @return string|null The audience.
 	 */
-	public function get_audience() {
+	protected function get_audience() {
 		if ( is_single_user() ) {
 			return null;
 		} else {

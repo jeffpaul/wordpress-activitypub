@@ -129,13 +129,6 @@ abstract class Base {
 	abstract protected function get_id();
 
 	/**
-	 * Get the replies Collection.
-	 */
-	public function get_replies() {
-		return Replies::get_collection( $this->item );
-	}
-
-	/**
 	 * Returns the ID of the WordPress Object.
 	 */
 	abstract public function get_wp_user_id();
@@ -152,7 +145,7 @@ abstract class Base {
 	 *
 	 * @return string The locale of the blog.
 	 */
-	public function get_locale() {
+	protected function get_locale() {
 		$lang = \strtolower( \strtok( \get_locale(), '_-' ) );
 
 		/**
@@ -164,5 +157,25 @@ abstract class Base {
 		 * @return string The filtered locale of the post.
 		 */
 		return apply_filters( 'activitypub_locale', $lang, $this->item );
+	}
+
+	/**
+	 * Returns the recipient of the post.
+	 *
+	 * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-to
+	 *
+	 * @return array The recipient URLs of the post.
+	 */
+	protected function get_to() {
+		return array(
+			'https://www.w3.org/ns/activitystreams#Public',
+		);
+	}
+
+	/**
+	 * Get the replies Collection.
+	 */
+	public function get_replies() {
+		return Replies::get_collection( $this->item );
 	}
 }

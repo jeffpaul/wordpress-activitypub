@@ -28,6 +28,13 @@ use function Activitypub\get_comment_ancestors;
  */
 class Comment extends Base {
 	/**
+	 * The User as Actor Object.
+	 *
+	 * @var \Activitypub\Activity\Actor
+	 */
+	private $actor_object = null;
+
+	/**
 	 * Returns the User-ID of the WordPress Comment.
 	 *
 	 * @return int The User-ID of the WordPress Comment
@@ -72,14 +79,6 @@ class Comment extends Base {
 				$this->get_locale() => $this->get_content(),
 			)
 		);
-		$path = sprintf( 'actors/%d/followers', intval( $comment->comment_author ) );
-
-		$object->set_to(
-			array(
-				'https://www.w3.org/ns/activitystreams#Public',
-				get_rest_url_by_path( $path ),
-			)
-		);
 
 		return $object;
 	}
@@ -92,12 +91,7 @@ class Comment extends Base {
 	 * @return string The User-URL.
 	 */
 	protected function get_attributed_to() {
-		if ( is_single_user() ) {
-			$user = new Blog();
-			return $user->get_id();
-		}
-
-		return Users::get_by_id( $this->item->user_id )->get_id();
+		return $this->get_actor_object()->get_id();
 	}
 
 	/**
@@ -174,6 +168,35 @@ class Comment extends Base {
 	}
 
 	/**
+	 * Returns the User-Object of the Author of the Post.
+	 *
+	 * If `single_user` mode is enabled, the Blog-User is returned.
+	 *
+	 * @return \Activitypub\Activity\Actor The User-Object.
+	 */
+	protected function get_actor_object() {
+		if ( $this->actor_object ) {
+			return $this->actor_object;
+		}
+
+		$blog_user          = new Blog();
+		$this->actor_object = $blog_user;
+
+		if ( is_single_user() ) {
+			return $blog_user;
+		}
+
+		$user = Users::get_by_id( $this->item->user_id );
+
+		if ( $user && ! is_wp_error( $user ) ) {
+			$this->actor_object = $user;
+			return $user;
+		}
+
+		return $blog_user;
+	}
+
+	/**
 	 * Returns a list of Mentions, used in the Comment.
 	 *
 	 * @see https://docs.joinmastodon.org/spec/activitypub/#Mention
@@ -181,7 +204,9 @@ class Comment extends Base {
 	 * @return array The list of Mentions.
 	 */
 	protected function get_cc() {
-		$cc = array();
+		$cc = array(
+			$this->get_actor_object()->get_followers(),
+		);
 
 		$mentions = $this->get_mentions();
 		if ( $mentions ) {
