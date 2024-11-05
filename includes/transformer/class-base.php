@@ -146,4 +146,23 @@ abstract class Base {
 	 * @param int $user_id The new user ID.
 	 */
 	abstract public function change_wp_user_id( $user_id );
+
+	/**
+	 * Returns a generic locale based on the Blog settings.
+	 *
+	 * @return string The locale of the blog.
+	 */
+	public function get_locale() {
+		$lang = \strtolower( \strtok( \get_locale(), '_-' ) );
+
+		/**
+		 * Filter the locale of the post.
+		 *
+		 * @param string $lang    The locale of the post.
+		 * @param mixed  $item    The post object.
+		 *
+		 * @return string The filtered locale of the post.
+		 */
+		return apply_filters( 'activitypub_locale', $lang, $this->item );
+	}
 }

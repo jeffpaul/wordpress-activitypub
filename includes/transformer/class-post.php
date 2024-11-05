@@ -945,27 +945,6 @@ class Post extends Base {
 	}
 
 	/**
-	 * Returns the locale of the post.
-	 *
-	 * @return string The locale of the post.
-	 */
-	public function get_locale() {
-		$post_id = $this->item->ID;
-		$lang    = \strtolower( \strtok( \get_locale(), '_-' ) );
-
-		/**
-		 * Filter the locale of the post.
-		 *
-		 * @param string  $lang    The locale of the post.
-		 * @param int     $post_id The post ID.
-		 * @param WP_Post $post    The post object.
-		 *
-		 * @return string The filtered locale of the post.
-		 */
-		return apply_filters( 'activitypub_post_locale', $lang, $post_id, $this->item );
-	}
-
-	/**
 	 * Returns the in-reply-to URL of the post.
 	 *
 	 * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-inreplyto
