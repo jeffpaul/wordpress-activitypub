@@ -152,6 +152,10 @@ For reasons of data protection, it is not possible to see the followers of other
 
 ## Changelog ##
 
+### Dev ###
+
+* Fixed: do not display ActivityPub's user sub-menus to users who do not have the capabilities of writing posts.
+
 ### 4.1.0 ###
 
 * Added: Add custom Preview for "Fediverse"
