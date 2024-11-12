@@ -17,7 +17,7 @@ class Json extends Activity_Object {
 	/**
 	 * JSON constructor.
 	 *
-	 * @param WP_Post|WP_Comment|Base_Object|string|array $item The item that should be transformed.
+	 * @param string|array $item The item that should be transformed.
 	 */
 	public function __construct( $item ) {
 		$item = new Base_Object();
