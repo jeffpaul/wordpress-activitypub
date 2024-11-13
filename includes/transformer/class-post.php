@@ -716,16 +716,8 @@ class Post extends Base {
 	 * @return array The list of Mentions.
 	 */
 	protected function get_cc() {
-		$cc = array(
-			$this->get_actor_object()->get_followers(),
-		);
-
-		$mentions = $this->get_mentions();
-		if ( $mentions ) {
-			foreach ( $mentions as $url ) {
-				$cc[] = $url;
-			}
-		}
+		$cc   = array_values( $this->get_mentions() );
+		$cc[] = $this->get_actor_object()->get_followers();
 
 		return $cc;
 	}
