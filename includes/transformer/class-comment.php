@@ -10,7 +10,7 @@ namespace Activitypub\Transformer;
 use Activitypub\Webfinger;
 use Activitypub\Comment as Comment_Utils;
 use Activitypub\Model\Blog;
-use Activitypub\Collection\Users;
+use Activitypub\Collection\Actors;
 
 use function Activitypub\is_single_user;
 use function Activitypub\get_rest_url_by_path;
