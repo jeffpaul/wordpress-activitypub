@@ -9,7 +9,7 @@ namespace Activitypub;
 
 use WP_User_Query;
 use Activitypub\Model\Blog;
-use Activitypub\Collection\Users;
+use Activitypub\Collection\Actors;
 use Activitypub\Collection\Extra_Fields;
 
 /**
@@ -72,7 +72,7 @@ class Admin {
 			$followers_list_page = \add_users_page(
 				\__( '⁂ Followers', 'activitypub' ),
 				\__( '⁂ Followers', 'activitypub' ),
-				'read',
+				'activitypub',
 				'activitypub-followers-list',
 				array(
 					self::class,
@@ -88,7 +88,7 @@ class Admin {
 			\add_users_page(
 				\__( '⁂ Extra Fields', 'activitypub' ),
 				\__( '⁂ Extra Fields', 'activitypub' ),
-				'read',
+				'activitypub',
 				\esc_url( \admin_url( '/edit.php?post_type=ap_extrafield' ) )
 			);
 		}
@@ -444,7 +444,7 @@ class Admin {
 				ACTIVITYPUB_PLUGIN_FILE
 			),
 			array( 'jquery' ),
-			get_plugin_version(),
+			ACTIVITYPUB_PLUGIN_VERSION,
 			false
 		);
 
@@ -456,7 +456,7 @@ class Admin {
 					ACTIVITYPUB_PLUGIN_FILE
 				),
 				array(),
-				get_plugin_version()
+				ACTIVITYPUB_PLUGIN_VERSION
 			);
 			wp_enqueue_script(
 				'activitypub-admin-script',
@@ -465,7 +465,7 @@ class Admin {
 					ACTIVITYPUB_PLUGIN_FILE
 				),
 				array( 'jquery' ),
-				get_plugin_version(),
+				ACTIVITYPUB_PLUGIN_VERSION,
 				false
 			);
 		}
@@ -478,7 +478,7 @@ class Admin {
 					ACTIVITYPUB_PLUGIN_FILE
 				),
 				array(),
-				get_plugin_version()
+				ACTIVITYPUB_PLUGIN_VERSION
 			);
 		}
 	}
@@ -773,10 +773,10 @@ class Admin {
 				_n(
 					'%s Follower (Blog)',
 					'%s Followers (Blog)',
-					count_followers( Users::BLOG_USER_ID ),
+					count_followers( Actors::BLOG_USER_ID ),
 					'activitypub'
 				),
-				\number_format_i18n( count_followers( Users::BLOG_USER_ID ) )
+				\number_format_i18n( count_followers( Actors::BLOG_USER_ID ) )
 			);
 			$items['activitypub-followers-blog'] = sprintf(
 				'<a class="activitypub-followers" href="%1$s" title="%2$s">%3$s</a>',
