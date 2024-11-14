@@ -7,7 +7,7 @@
 
 namespace Activitypub;
 
-use Activitypun\Scheduler\Post;
+use Activitypub\Scheduler\Post;
 use Activitypub\Scheduler\Actor;
 use Activitypub\Scheduler\Comment;
 use Activitypub\Collection\Followers;
@@ -35,8 +35,8 @@ class Scheduler {
 	 */
 	public static function register_schedulers() {
 		Post::init();
+		Actor::init();
 		Comment::init();
-		Post::init();
 
 		/**
 		 * Register additional schedulers.
