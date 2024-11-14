@@ -7,6 +7,9 @@
 
 namespace Activitypub;
 
+use Activitypun\Scheduler\Post;
+use Activitypub\Scheduler\Actor;
+use Activitypub\Scheduler\Comment;
 use Activitypub\Collection\Followers;
 
 /**
