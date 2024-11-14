@@ -24,7 +24,7 @@ class Outbox {
 	 *
 	 * @return mixed The added item or an error.
 	 */
-	public static function add_item( $item, $user_id, $activity_type = 'Create' ) {
+	public static function add_item( $item, $user_id, $activity_type = 'Create' ) { // phpcs:ignore
 		$transformer = Factory::get_transformer( $item );
 		$object      = $transformer->transform();
 
