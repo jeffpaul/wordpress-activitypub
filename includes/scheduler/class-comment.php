@@ -7,6 +7,9 @@
 
 namespace Activitypub\Scheduler;
 
+use function Activitypub\set_wp_object_state;
+use function Activitypub\should_comment_be_federated;
+
 /**
  * Post scheduler class.
  */

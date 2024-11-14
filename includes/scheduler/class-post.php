@@ -7,6 +7,9 @@
 
 namespace Activitypub\Scheduler;
 
+use function Activitypub\is_post_disabled;
+use function Activitypub\set_wp_object_state;
+
 /**
  * Post scheduler class.
  */

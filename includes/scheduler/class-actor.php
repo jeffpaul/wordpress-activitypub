@@ -7,6 +7,8 @@
 
 namespace Activitypub\Scheduler;
 
+use function Activitypub\is_user_type_disabled;
+
 /**
  * Post scheduler class.
  */
