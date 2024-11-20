@@ -199,10 +199,7 @@ function url_to_authorid( $url ) {
 
 	// First, check to see if there is a 'author=N' to match against.
 	if ( \preg_match( '/[?&]author=(\d+)/i', $url, $values ) ) {
-		$id = \absint( $values[1] );
-		if ( $id ) {
-			return $id;
-		}
+		return \absint( $values[1] );
 	}
 
 	// Check to see if we are using rewrite rules.
@@ -1473,4 +1470,20 @@ function get_attribution_domains() {
 	}
 
 	return $domains;
+}
+
+/**
+ * Get the base URL for uploads.
+ *
+ * @return string The upload base URL.
+ */
+function get_upload_baseurl() {
+	$upload_dir = \wp_get_upload_dir();
+
+	/**
+	 * Filters the upload base URL.
+	 *
+	 * @param string \wp_get_upload_dir()['baseurl'] The upload base URL.
+	 */
+	return apply_filters( 'activitypub_get_upload_baseurl', $upload_dir['baseurl'] );
 }
