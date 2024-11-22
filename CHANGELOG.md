@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Dev - XXXX-XX-XX
 
+### Added
+
+* Fediverse Preview on post-overview page
+* GitHub action to enforce Changelog updates.
+
 ### Improved
 
 * Outsource Constants to a separate file
+* Better handling of `readme.txt` and `README.md`
 
 ## 4.2.1 - 2024-11-20
 
@@ -32,6 +38,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 * Unit tests for the `ActivityPub\Transformer\Post` class
+
+### Added
+
+* GitHub action to enforce Changelog updates.
 
 ### Improved
 
