@@ -1497,3 +1497,28 @@ function get_upload_baseurl() {
 	 */
 	return apply_filters( 'activitypub_get_upload_baseurl', $upload_dir['baseurl'] );
 }
+
+/**
+ * Check if Authorized-Fetch is enabled.
+ *
+ * @see https://docs.joinmastodon.org/admin/config/#authorized_fetch
+ *
+ * @return boolean True if Authorized-Fetch is enabled, false otherwise.
+ */
+function use_authorized_fetch() {
+	$use = false;
+
+	// Prefer the constant over the option.
+	if ( \defined( 'ACTIVITYPUB_AUTHORIZED_FETCH' ) ) {
+		$use = ACTIVITYPUB_AUTHORIZED_FETCH;
+	} else {
+		$use = (bool) \get_option( 'activitypub_authorized_fetch', '0' );
+	}
+
+	/**
+	 * Filters whether to use Authorized-Fetch.
+	 *
+	 * @param boolean $use_authorized_fetch True if Authorized-Fetch is enabled, false otherwise.
+	 */
+	return apply_filters( 'activitypub_use_authorized_fetch', $use );
+}

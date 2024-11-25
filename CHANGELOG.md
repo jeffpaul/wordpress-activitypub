@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Fediverse Preview on post-overview page
 * GitHub action to enforce Changelog updates
 * New contributors
+* Setting to enable/disable Authorized-Fetch
 
 ### Improved
 
