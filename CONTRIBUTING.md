@@ -6,7 +6,7 @@ Developers of all levels can help — whether you can barely recognize a filter 
 
 ## Create Bug Reports
 
-If you find a bug, please [file a GitHub issue](https://github.com/Automattic/wordpress-activitypub/issues/). If you want to prefix the title with a “Question:”, “Bug:”, or the general area of the application, that would be helpful, but by no means mandatory. If you have write access, add the appropriate labels.
+If you find a bug, please [file a GitHub issue](https://github.com/Automattic/wordpress-activitypub/issues/). If you have write access, add the appropriate labels.
 
 If you’re filing a bug, specific steps to reproduce are helpful. Please include the URL of the page that has the bug, along with what you expected to see and what happened instead.
 
