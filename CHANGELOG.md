@@ -24,7 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Fediverse preview showing `preferredUsername` instead of `name`
 * Fixed a potential fatal error in Enable Mastodon Apps
 
-## 4.2.1 - 2024-11-20
+## [4.2.1] - 2024-11-20
 
 ### Added
 
@@ -40,7 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Don't overwrite an existing `wp-tests-config.php`
 * PHPCS for phpunit files
 
-## 4.2.0 - 2024-11-15
+## [4.2.0] - 2024-11-15
 
 ### Added
 
@@ -64,14 +64,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Remove `meta` CLI command
 * Remove unneeded translation functions from CLI commands
 
-## 4.1.1 - 2024-11-10
+## [4.1.1] - 2024-11-10
 
 ### Fixed
 
 * Only revert to URL if there is one
 * Migration
 
-## 4.1.0 - 2024-11-08
+## [4.1.0] - 2024-11-08
 
 ### Added
 
@@ -88,7 +88,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Add title to content if post is a `Note`
 * Fallback to blog-user if user is disabled
 
-## 4.0.2 - 2024-10-30
+## [4.0.2] - 2024-10-30
 
 ### Fixed
 
