@@ -12,9 +12,9 @@ If you’re filing a bug, specific steps to reproduce are helpful. Please includ
 
 ## Write and submit a patch
 
-If you'd like to fix a bug or make an enhancement, you can submit a Pull Request. Before you get started, you'll want to **[set up your development environment.](/docs/development-environment.md)**
+If you'd like to fix a bug or make an enhancement, you can submit a Pull Request. Before you get started, you'll want to **[set up your development environment.](https://automattic.github.io/wordpress-activitypub/development-environment)**
 
-Once your development environment is ready, you can get started and [create your first Pull Request!](/docs/pull-request.md)
+Once your development environment is ready, you can get started and [create your first Pull Request!](https://automattic.github.io/wordpress-activitypub/pull-request)
 
 ### Get started
 
@@ -29,11 +29,11 @@ We encourage you to ask for help at any point. We want your first experience wit
 
 ## Translate the plugin
 
-If you speak a foreign language, you can help translate the ActivityPub plugin into your own language. [here is how.](/docs/translations.md)
+If you speak a foreign language, you can help translate the ActivityPub plugin into your own language. [here is how.](https://automattic.github.io/wordpress-activitypub/translations)
 
 ## License
 
-The ActivityPub plugin is licensed under the [MIT](/LICENSE) license.
+The ActivityPub plugin is licensed under the [MIT](https://github.com/Automattic/wordpress-activitypub/blob/trunk/LICENSE) license.
 
 All materials contributed should be compatible with the MIT and GPLv2 license. This means that if you own the material, you agree to license it under the MIT license. If you are contributing code that is not your own, such as adding a component from another Open Source project, or adding an `npm` package, you need to make sure you follow these steps:
 
