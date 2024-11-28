@@ -1014,8 +1014,8 @@ function get_enclosures( $post_id ) {
 
 			return array(
 				'url'       => $attributes[0],
-				'length'    => isset( $attributes[1] ) ? trim( $attributes[1] ) : null,
-				'mediaType' => isset( $attributes[2] ) ? trim( $attributes[2] ) : null,
+				'length'    => $attributes[1] ?? null,
+				'mediaType' => $attributes[2] ?? 'application/octet-stream',
 			);
 		},
 		$enclosures
@@ -1521,4 +1521,31 @@ function use_authorized_fetch() {
 	 * @param boolean $use_authorized_fetch True if Authorized-Fetch is enabled, false otherwise.
 	 */
 	return apply_filters( 'activitypub_use_authorized_fetch', $use );
+}
+
+/**
+ * Check if an ID is from the same domain as the site.
+ *
+ * @param string $id The ID URI to check.
+ *
+ * @return boolean True if the ID is a self-pint, false otherwise.
+ */
+function is_self_ping( $id ) {
+	$query_string = \wp_parse_url( $id, PHP_URL_QUERY );
+
+	if ( ! $query_string ) {
+		return false;
+	}
+
+	$query = array();
+	\parse_str( $query_string, $query );
+
+	if (
+		is_same_domain( $id ) &&
+		in_array( 'c', array_keys( $query ), true )
+	) {
+		return true;
+	}
+
+	return false;
 }
