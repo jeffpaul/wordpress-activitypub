@@ -30,7 +30,7 @@ class Notification {
 		$subject = \sprintf(
 			/* translators: 1: actor name, 2: object name */
 			\__( 'A DM from %1$s', 'activitypub' ),
-			$actor['name'],
+			$actor['name']
 		);
 
 		$message = \sprintf(
