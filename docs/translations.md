@@ -16,7 +16,7 @@ Once you've suggested a new translation, [a GlotPress validator](https://make.wo
 
 ## How does GlotPress work?
 
-You can find detailed GlotPress documentation on [this page](https://make.wordpress.org/polyglots/handbook/tools/glotpress-translate-wordpress-org/).
+You can find detailed GlotPress documentation in [the WordPress Polyglots Handbook](https://make.wordpress.org/polyglots/handbook/tools/glotpress-translate-wordpress-org/).
 
 ## I want to change translations locally. Where can I download the .PO file for my language?
 
