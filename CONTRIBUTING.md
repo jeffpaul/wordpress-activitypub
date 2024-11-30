@@ -25,7 +25,7 @@ If you'd like to contribute but don't know where to get started, you can take a 
 
 ### We’re Here To Help
 
-We encourage you to ask for help at any point. We want your first experience with the ActivityPub plugin to be a good one, so don’t be shy. If you’re wondering why something is the way it is, or how a decision was made, you can create an issue and prefix it with “Question:”.
+We encourage you to ask for help at any point. We want your first experience with the ActivityPub plugin to be a good one, so don’t be shy. If you’re wondering why something is the way it is, or how a decision was made, please create an issue and prefix it with “Question:”.
 
 ## Translate the plugin
 
